@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  theservice:
+    image: ${DOCKER_REGISTRY-}time-track-dshp
+    ports:
+      - "8080:80"    
+    environment:
+      - LOCAL=1
+    build:
+      context: .
+      dockerfile: time-track-dshp/Dockerfile
+      

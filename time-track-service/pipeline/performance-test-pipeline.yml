@@ -1,0 +1,21 @@
+trigger: none
+
+parameters:
+- name: namespace
+  displayName: 'Agent namespace'
+  type: string
+  default: 'core-prod-dev2' 
+  
+resources:
+  repositories:
+    - repository: build-resources
+      type: git
+      name: MedCompass/build-resources
+
+extends:
+  template: templates/micro/performance-test-pipeline.yml@build-resources
+  parameters:
+    serviceName: time-track
+    duration: 10s
+    virtualUsers: 10
+    namespace:  ${{ parameters.namespace }}

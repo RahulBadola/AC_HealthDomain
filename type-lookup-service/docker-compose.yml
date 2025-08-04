@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  theservice:
+    image: ${DOCKER_REGISTRY-}type-lookup-service
+    ports:
+      - "8080:80"    
+    environment:
+      - LOCAL=1
+      - LOGGING__LOGLEVEL__DEFAULT=Debug
+      - TYPELOOKUP__FILELOCATION=/config
+      - REPO_URI=https://assurecaresoftware.visualstudio.com/Sandbox/_git/config-as-code-stuff-from-sql
+      - BRANCH_NAME=master
+      - DEVOPS_PAT= 
+      - TENANTID=00000000-0000-0000-0000-000000000000
+    build:
+      context: .
+      dockerfile: type-lookup-service/Dockerfile

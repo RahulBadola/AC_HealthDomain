@@ -1,0 +1,77 @@
+trigger: none
+
+resources:
+  containers:
+  - container: dshpContainer
+    type: ACR  
+    azureSubscription: 'AKS Service Connection'
+    resourceGroup: rg-mc-hub-ss-01
+    registry: regmchubaks01
+    repository: assurecare/time-track-dshp
+    trigger:
+      tags:
+        include: 
+        - latest
+  - container: serviceContainer
+    type: ACR  
+    azureSubscription: 'AKS Service Connection'
+    resourceGroup: rg-mc-hub-ss-01
+    registry: regmchubaks01
+    repository: assurecare/time-track-service
+    trigger:
+      tags:
+        include: 
+        - latest
+  repositories:
+  - repository: build-resources
+    type: git
+    name: MedCompass/build-resources
+
+variables:
+  jobName: TimeTrack
+  serviceName: 'time-track'
+
+stages:
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - deployment: Deploy_${{ variables.jobName }}
+    displayName: Deploy ${{ variables.serviceName }}
+    environment: core-prod-decomdev
+    pool: KubernetesAgentPool
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: templates/micro/release-deploy-steps.yml@build-resources
+            parameters:
+              client: assurecare
+              cluster: coreprod
+              name: ${{ variables.serviceName }}
+              namespace: $(Environment.Name)
+
+- stage: Test
+  jobs:
+
+  - job: TestAB
+    displayName: "Run ${{ variables.serviceName }} a/b tests"
+    pool: mc-microservice-agent-pool
+    steps:
+    - template: templates/micro/ab-test-steps.yml@build-resources
+      parameters:
+        postman.collection: ${{ variables.serviceName }}.postman_collection.json
+        postman.environment: coreprod.postman_environment.json
+        postman.globals: medcompass-postman_globals.json
+  
+  - job: TestPerformance
+    displayName: Run ${{ variables.serviceName }} performance tests
+    dependsOn: TestAB
+    condition: succeededOrFailed()
+    pool: aks-agent-pool
+    variables:
+      api.baseurl: http://${{ variables.serviceName }}-micro-service
+    steps:
+    - template: templates/micro/performance-test-steps.yml@build-resources
+      parameters:
+        duration: 10s
+        virtualUsers: 10

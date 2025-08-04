@@ -1,0 +1,16 @@
+{
+  "namespace": "AssureCare",
+  "type": "record",
+  "doc": "Represents a list of file names",
+  "name": "SyncBackRecord",
+  "fields": [
+    {
+      "name": "ObjectType",
+      "type": "string"
+    },
+    {
+      "name": "ObjectJson",
+      "type": "string"
+    }
+  ]
+}

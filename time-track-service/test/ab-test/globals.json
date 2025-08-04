@@ -1,0 +1,96 @@
+{
+	"id": "57c6e897-5844-458e-8fe3-121b25ad48ee",
+	"values": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "sortObject",
+			"value": "sortObject = o => Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {})",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "commonTests",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "tenantId",
+			"value": "d5a28601-2b37-41dc-abd6-2b0d940c7938",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "segmentId",
+			"value": "00000000-0000-0000-0000-000000000000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "staffId",
+			"value": "52e178e8-e562-42f4-87c2-6c29963ea209",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "memberId",
+			"value": "9b246187-fb5a-4610-b14f-76528349f679",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "securityuserroleid",
+			"value": "00000000-0000-0000-0000-00000000000d",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "usersessionid",
+			"value": "67728c3a-173c-47d5-ae18-1e6177d17176",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "microserviceStaffTimeTrackId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "microserviceMemberTimeTrackId",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "memberid_1",
+			"value": "ae9922ea-59bf-4734-8722-a16ac3a43616",
+			"enabled": true
+		},
+		{
+			"key": "staffid_1",
+			"value": "5ae6499e-f729-4e19-9618-2339476f3c9b",
+			"enabled": true
+		},
+		{
+			"key": "memberid",
+			"value": "f29406cc-88b8-49b5-a433-f610d51b7ec7",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-09-01T08:51:15.147Z",
+	"_postman_exported_using": "Postman/9.30.0"
+}

@@ -1,0 +1,7 @@
+# Test Results
+TEST*.csv
+TEST*.html
+TEST*.json
+TEST*.ndjson
+TEST*.txt
+TEST*.xml

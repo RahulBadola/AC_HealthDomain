@@ -1,0 +1,51 @@
+parameters:
+  duration: 60s
+  virtualUsers: 10
+
+steps:
+- task: k6-load-test@0
+  displayName: 'Run tests with k6'
+  inputs:
+    filename: 'test/performance/script.js'
+    args: --vus ${{ parameters.virtualUsers }} --duration ${{ parameters.duration }} --out json=TEST-PERFORMANCE-OUT.ndjson
+
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  continueOnError: true
+  condition: always()
+
+- pwsh: >
+    (Get-Content TEST-PERFORMANCE-OUT.ndjson) 
+    | jq -c '. | select(.type==\"Point\" and .metric==\"http_req_duration\") | .data | { endpoint: (.tags.method + \" \" + .tags.name), duration: .value }' 
+    | % { $_ | ConvertFrom-Json } 
+    | Group-Object endpoint | % { 
+        $o = $_.Group | Measure-Object -Property duration -Average -Maximum -Minimum; 
+        $o | Add-Member -MemberType NoteProperty -Name Endpoint -Value $_.Name; 
+        $o | select Endpoint, Count, Average, Maximum, Minimum 
+    } 
+    | Sort-Object -Property Endpoint 
+    | ConvertTo-Json
+    | Set-Content -Path ./TEST-PERFORMANCE-HTTP-METRICS.json
+  displayName: 'Generate http metrics'
+  continueOnError: true
+  condition: always()
+
+- task: CopyFiles@2
+  displayName: 'Collect test result artifacts'
+  condition: always()
+  continueOnError: true
+  inputs:
+    Contents: |
+      **/TEST-*.csv
+      **/TEST-*.html
+      **/TEST-*.json
+      **/TEST-*.ndjson
+      **/TEST-*.txt
+    flattenFolders: true
+    TargetFolder: "$(build.ArtifactStagingDirectory)/$(system.StageName)"
+
+- publish: "$(build.ArtifactStagingDirectory)/$(system.StageName)"
+  artifact: "$(system.StageDisplayName) - $(system.JobDisplayName)"
+  condition: always()
+  continueOnError: true
+  displayName: Publish test result artifacts

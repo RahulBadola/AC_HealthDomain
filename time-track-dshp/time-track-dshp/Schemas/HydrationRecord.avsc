@@ -1,0 +1,32 @@
+{
+  "namespace": "AssureCare",
+  "type": "record",
+  "doc": "Represents a list of file names",
+  "name": "HydrationRecord",
+  "fields": [
+    {
+      "name": "DomainName",
+      "type": "string"
+    },
+    {
+      "name": "PrimaryKey",
+      "type": "string"
+    },
+    {
+      "name": "LastUpdated",
+      "type": "string"
+    },
+    {
+      "name": "IsLastItem",
+      "type": "boolean"
+    },
+    {
+      "name": "IsHydrationItem",
+      "type": "boolean"
+    },
+    {
+      "name": "KAttributes",
+      "type": [ "null", "string" ]
+    }
+  ]
+}

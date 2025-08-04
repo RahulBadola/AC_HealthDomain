@@ -1,0 +1,69 @@
+{
+	"id": "b41b601c-db07-421a-b328-4cf4c00c6e1c",
+	"name": "coreprod",
+	"values": [
+		{
+			"key": "micro_service_base_url",
+			"value": "https://dtcentralus.assurecaremc.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "legacy_service_base_url",
+			"value": "https://dev-02-webapi-01.azurewebsites.net",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "microserviceResponse",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "namespace",
+			"value": "core-prod-dev2",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "access token",
+			"value": "eyJraWQiOiItYVJqX3hTT2JTSE43NkJXTndQdjVWNll5Zml5Y3BqT3gxa1NsSnJVM1A0IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULngxSFFyR1BBS2RETmlFaVYzaVlTLU9aaHFhcWltMFM0VjFYX0dwWG82OEUiLCJpc3MiOiJodHRwczovL2Fzc3VyZWNhcmUub2t0YS5jb20vb2F1dGgyL2RlZmF1bHQiLCJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjYxNDIzNTQ2LCJleHAiOjE2NjE0MzA3NDYsImNpZCI6IjBvYTFpMHNhamZsQklLUklHMGg4IiwidWlkIjoiMDB1MWh3YTcxdGNGUE5rZncwaDgiLCJzY3AiOlsib3BlbmlkIl0sImF1dGhfdGltZSI6MTY2MTQyMzU0Niwic3ViIjoidGVzdDFAYWMuY29tIiwibGFzdCI6Ik9uZSIsImZuIjoiVGVzdCBPbmUiLCJncm91cHMiOlsiRGVmYXVsdC1Db25maWd1cmF0aW9uIiwiRXZlcnlvbmUiLCJhY21lIiwiQmlsbDJQcm9maWxlX0JpbGwyU2VjdXJpdHkiLCJTdGFuZGFyZCBVc2VyIiwibWVkY29tcGFzc3VzZXIiLCJFeHRlbmFsIFByb3ZpZGVyIiwiYXV0b21hdGlvbi1Db25maWd1cmF0aW9uX2F1dG9tYXRpb24tcm9sZSIsImF1dG9tYXRpb24tQ29uZmlndXJhdGlvbl9BdXRvbWF0aW9uRG9udFRvdWNoIiwiVUFULUFDTUMtQURNLUFHWSJdLCJtZWRjb21wYXNzc2VjdXJpdHlyb2xlcyI6WyJTcmFkZGhhbnMgUm9sZSJdLCJmaXJzdCI6IlRlc3QifQ.urs_qjRGQeuawNyNIqe7EKP8hBximdKMo4FN1JFlM7MKMZPangag1ixz78_sGmKABLdg5mFY125wr46rSBp7d3hPApZhCrLGJS5a428qt4njU7oPtZauHLcKq80-nnR2-aGxYuu_6_q7rz4CLH_t6H8uBlDOYbIWmBJCZAoqyVZMhDUd-xEqebFDV61V2_SzXoWnH1PxOtg_vkq70A-ubhkAlbNxGhbLTYgPjD3IizNk3fHFII1sZUTXGqxjDaYvl9pD_daoDBtHhsFDlGGQrArSv8tQwceansThxkD4Kd8Pcj-aGKbNL9VpMSaSsCpxZ3Xsg4Tpugwz469y8iHQoA",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "legacyResponse",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "service",
+			"value": "time-track",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "",
+			"value": "",
+			"type": "any",
+			"enabled": false
+		},
+		{
+			"key": "microserviceStaffTimeTrackId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "microserviceMemberTimeTrackId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-09-06T09:52:36.074Z",
+	"_postman_exported_using": "Postman/9.30.3"
+}

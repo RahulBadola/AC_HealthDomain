@@ -1,0 +1,20 @@
+trigger: none
+
+stages:
+- stage: CoreProdDecomDev
+  displayName: core-prod-decomdev
+  condition: always()
+  pool: aks-agent-pool
+  variables:
+    test.virtualUsers: 10
+    test.duration: 60s
+  jobs:
+  - job: CoreProdDecomDev_Test
+    displayName: Test
+    variables:
+      api.baseurl: http://type-lookup-micro-service
+    steps:
+    - template: performance-test-steps.yml
+      parameters:
+        duration: $(test.duration)
+        virtualUsers: $(test.virtualUsers)

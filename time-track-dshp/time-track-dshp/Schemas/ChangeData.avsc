@@ -1,0 +1,39 @@
+{
+	"namespace": "AssureCare",
+	"type": "record",
+	"doc": "Represents change set for a sql record",
+	"name": "ChangeData",
+	"fields": [
+		{
+			"name": "Data",
+			"type": {
+				"type": "map",
+				"values": [ "string", "null" ]
+			}
+		},
+		{
+			"name": "TransactionStartTime",
+			"type": "string"
+		},
+		{
+			"name": "TransactionEndTime",
+			"type": "string"
+		},
+		{
+			"name": "Table",
+			"type": "string"
+		},
+		{
+			"name": "PrimaryKey",
+			"type": "string"
+		},
+		{
+			"name": "TransactionType",
+			"type": "string"
+		},
+		{
+			"name": "StartLns",
+			"type": "string"
+		}
+	]
+}

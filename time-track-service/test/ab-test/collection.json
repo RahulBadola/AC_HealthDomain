@@ -1,0 +1,2046 @@
+{
+	"info": {
+		"_postman_id": "a51a9c96-be00-4d3e-a646-3fc6db5ecdb3",
+		"name": "time-track",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2363534"
+	},
+	"item": [
+		{
+			"name": "okta",
+			"item": [
+				{
+					"name": "Okta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save common tests in a global variable\r",
+									"postman.setGlobalVariable(\"commonTests\", () => {\r",
+									"  // The Content-Type must be JSON\r",
+									"  pm.test(\"Content-Type header is set\", () => {\r",
+									"        pm.expect(postman.getResponseHeader(\"Content-Type\")).to.be.oneOf([\"application/json\", \"application/json; charset=utf-8\"]);\r",
+									"  });\r",
+									"\r",
+									"  // The response time must be less than 500 milliseconds\r",
+									"  tests[\"Response time is acceptable\"] = responseTime < 3000;\r",
+									"\r",
+									"});\r",
+									"\r",
+									"eval(globals.commonTests)();\r",
+									"\r",
+									"var token;\r",
+									"try {\r",
+									"    var response = JSON.parse(responseBody); \r",
+									"    token = response.access_token; \r",
+									"    pm.globals.set(\"token\", token);\r",
+									"}\r",
+									"catch (err) {\r",
+									"    console.warn(err.message);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "KlRnSeps5bdF3PG2cx92Tb_-B7ZO0EZZwwUBhAao",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "0oa1i0sajflBIKRIG0h8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded; charset=UTF-8",
+								"type": "text"
+							},
+							{
+								"key": "Acce",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://assurecare.okta.com/oauth2/default/v1/token?username=test1@ac.com&password=P@ss0d1234&grant_type=password&scope=openid",
+							"protocol": "https",
+							"host": [
+								"assurecare",
+								"okta",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"default",
+								"v1",
+								"token"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "test1@ac.com"
+								},
+								{
+									"key": "password",
+									"value": "P@ss0d1234"
+								},
+								{
+									"key": "grant_type",
+									"value": "password"
+								},
+								{
+									"key": "scope",
+									"value": "openid"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inspect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(globals.commonTests)();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "TenantId",
+								"value": "{{tenantId}}",
+								"type": "text"
+							},
+							{
+								"key": "SegmentId",
+								"value": "00000000-0000-0000-0000-000000000000",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{micro_service_base_url}}/{{namespace}}/core/auth/api/inspect/{{token}}",
+							"host": [
+								"{{micro_service_base_url}}"
+							],
+							"path": [
+								"{{namespace}}",
+								"core",
+								"auth",
+								"api",
+								"inspect",
+								"{{token}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "legacy",
+			"item": [
+				{
+					"name": "member",
+					"item": [
+						{
+							"name": "Member time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "67728c3a-173c-47d5-ae18-1e6177d17176",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "00000000-0000-0000-0000-00000000000d",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Id\": null,\r\n  \"Case\": null,\r\n  \"CaseList\": [\r\n    {\r\n      \"Case\": \"Care Management - High/COMP - Pending (7/31/2022-tbd)\",\r\n      \"MemberProgramId\": \"a558c65f-98d4-4842-9551-d71c9c628ae9\",\r\n      \"ProgramTypeKey\": \"CMH\"\r\n    }\r\n  ],\r\n  \"MemberProgramGuid\": null,\r\n  \"StartDate\": \"2022-08-23T15:39:44.994+05:30\",\r\n  \"EndDate\": \"2022-08-23T15:39:44.994+05:30\",\r\n  \"StartTime\": \"15:39:44 +05:30\",\r\n  \"EndTime\": \"15:39:44 +05:30\",\r\n  \"FundingSource\": \"MCARE\",\r\n  \"MemberId\": \"9b246187-fb5a-4610-b14f-76528349f679\",\r\n  \"Member\": \"Test Automation\",\r\n  \"ProgramType\": \"Algorithms\",\r\n  \"SecurityUserId\": null,\r\n  \"Service\": \"HH\",\r\n  \"ServiceUnits\": \"12\",\r\n  \"Activity\": \"ASMT\",\r\n  \"SubActivity\": null,\r\n  \"TotalTime\": 0,\r\n  \"TotalTimeDisplay\": \"00:00\",\r\n  \"TravelDuration\": \"12\",\r\n  \"TravelMiles\": \"12\",\r\n  \"VolunteerDriver\": true,\r\n  \"Reason\": \"reason\",\r\n  \"AdditionalComments\": \"Additional\",\r\n  \"InsertedByName\": null,\r\n  \"InsertedOn\": null,\r\n  \"UpdatedByName\": null,\r\n  \"UpdatedOn\": null,\r\n  \"Udf\": {},\r\n  \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Member time-track by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "{{usersessionid}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking/ed3bf2fc-3b26-4b82-8b00-905535fcc2c8",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking",
+										"ed3bf2fc-3b26-4b82-8b00-905535fcc2c8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Member time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "{{usersessionid}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "staff",
+					"item": [
+						{
+							"name": "Staff time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "{{legacy_user_sessionid}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-01T12:06:21.836+05:30\",\r\n    \"EndDate\": \"2022-09-01T12:06:21.836+05:30\",\r\n    \"StartTime\": \"12:06:21 +05:30\",\r\n    \"EndTime\": \"12:06:21 +05:30\",\r\n    \"FundingSource\": null,\r\n    \"MemberId\": \"c64640e9-8b54-4fe3-b6d9-860ee21816fa\",\r\n    \"Member\": \"Test, Test 20\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": null,\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": null,\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": null,\r\n    \"AdditionalComments\": null,\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Staff time-track by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "00000000-0000-0000-0000-00000000000d",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "67728c3a-173c-47d5-ae18-1e6177d17176",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/{{staffId}}/timetracking/c8ce3227-de07-4fab-bd82-e3ab20709920",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking",
+										"c8ce3227-de07-4fab-bd82-e3ab20709920"
+									],
+									"query": [
+										{
+											"key": ":id",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Staff time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "67728c3a-173c-47d5-ae18-1e6177d17176",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "00000000-0000-0000-0000-00000000000d",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "microservice",
+			"item": [
+				{
+					"name": "member",
+					"item": [
+						{
+							"name": "Member time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-02T11:44:16.009+05:30\",\r\n    \"EndDate\": \"2022-09-02T11:44:16.009+05:30\",\r\n    \"StartTime\": \"11:44:16 +05:30\",\r\n    \"EndTime\": \"11:44:16 +05:30\",\r\n    \"FundingSource\": \"MCARE\",\r\n    \"MemberId\": \"ae9922ea-59bf-4734-8722-a16ac3a43616\",\r\n    \"Member\": \"TESTING DATA\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": \"BH\",\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": \"12\",\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": \"Reason\",\r\n    \"AdditionalComments\": \"test\",\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Member time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Member time-track by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking/eb027dd4-d1b1-4ed6-b882-512d9837548d",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking",
+										"eb027dd4-d1b1-4ed6-b882-512d9837548d"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "e1d37714-795c-4614-ab0d-261b47ea7dc9",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "staff",
+					"item": [
+						{
+							"name": "Staff time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-01T12:06:21.836+05:30\",\r\n    \"EndDate\": \"2022-09-01T12:06:21.836+05:30\",\r\n    \"StartTime\": \"12:06:21 +05:30\",\r\n    \"EndTime\": \"12:06:21 +05:30\",\r\n    \"FundingSource\": null,\r\n    \"MemberId\": \"c64640e9-8b54-4fe3-b6d9-860ee21816fa\",\r\n    \"Member\": \"Test, Test 20\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": null,\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": null,\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": null,\r\n    \"AdditionalComments\": null,\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Staff time-track by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "Segment",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/{{staffId}}/timetracking/:id",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "87ac52d1-1d9e-4bf2-b968-34e5cf51365b"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Staff time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"description": "c",
+										"type": "text"
+									},
+									{
+										"key": "uri",
+										"value": "t+",
+										"description": "\n",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ab-test-workflow",
+			"item": [
+				{
+					"name": "get time-track",
+					"item": [
+						{
+							"name": "legacy time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"//End"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "67728c3a-173c-47d5-ae18-1e6177d17176",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/8b1f2c3c-b911-4fff-8ecb-4520855f37c5/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"8b1f2c3c-b911-4fff-8ecb-4520855f37c5",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "microservice time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/8b1f2c3c-b911-4fff-8ecb-4520855f37c5/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"8b1f2c3c-b911-4fff-8ecb-4520855f37c5",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "post time-track",
+					"item": [
+						{
+							"name": "legacy time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"//End"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "{{legacy_user_sessionid}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-01T13:41:19.479+05:30\",\r\n    \"EndDate\": \"2022-09-01T13:41:19.479+05:30\",\r\n    \"StartTime\": \"13:41:19 +05:30\",\r\n    \"EndTime\": \"13:41:19 +05:30\",\r\n    \"FundingSource\": \"MCARE\",\r\n    \"MemberId\": \"93da140d-17b6-4858-8845-9a469b40c995\",\r\n    \"Member\": \"Test record, Test HealthWidget\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": null,\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": null,\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": \"Reason12\",\r\n    \"AdditionalComments\": \"Additional\",\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "microservice time-track",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"//End"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "{{usersessionid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-01T13:41:19.479+05:30\",\r\n    \"EndDate\": \"2022-09-01T13:41:19.479+05:30\",\r\n    \"StartTime\": \"13:41:19 +05:30\",\r\n    \"EndTime\": \"13:41:19 +05:30\",\r\n    \"FundingSource\": \"MCARE\",\r\n    \"MemberId\": \"93da140d-17b6-4858-8845-9a469b40c995\",\r\n    \"Member\": \"Test record, Test HealthWidget\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": null,\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": null,\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": \"Reason12\",\r\n    \"AdditionalComments\": \"Additional\",\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/{{staffId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get time track by ID",
+					"item": [
+						{
+							"name": "legacy time-track by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/staff/{{staffId}}/timetracking/c8ce3227-de07-4fab-bd82-e3ab20709920",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking",
+										"c8ce3227-de07-4fab-bd82-e3ab20709920"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "microservice time-track by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									},
+									{
+										"key": "User-SessionId",
+										"value": "ca15ad9f-da31-4205-8d39-8ac2ed900a19",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/staff/{{staffId}}/timetracking/87ac52d1-1d9e-4bf2-b968-34e5cf51365b",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"staff",
+										"{{staffId}}",
+										"timetracking",
+										"87ac52d1-1d9e-4bf2-b968-34e5cf51365b"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get member time-track",
+					"item": [
+						{
+							"name": "legacy member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "microservice member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "post member time-track",
+					"item": [
+						{
+							"name": "legacy member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-02T12:09:25.359+05:30\",\r\n    \"EndDate\": \"2022-09-02T12:09:25.359+05:30\",\r\n    \"StartTime\": \"12:09:25 +05:30\",\r\n    \"EndTime\": \"12:09:25 +05:30\",\r\n    \"FundingSource\": \"MCARE\",\r\n    \"MemberId\": \"ae9922ea-59bf-4734-8722-a16ac3a43616\",\r\n    \"Member\": \"TESTING DATA\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": \"BH\",\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": \"12\",\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": \"Reason\",\r\n    \"AdditionalComments\": \"test\",\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "microservice member",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\": null,\r\n    \"Case\": null,\r\n    \"CaseList\": [],\r\n    \"MemberProgramGuid\": null,\r\n    \"StartDate\": \"2022-09-02T11:44:16.009+05:30\",\r\n    \"EndDate\": \"2022-09-02T11:44:16.009+05:30\",\r\n    \"StartTime\": \"11:44:16 +05:30\",\r\n    \"EndTime\": \"11:44:16 +05:30\",\r\n    \"FundingSource\": \"MCARE\",\r\n    \"MemberId\": \"ae9922ea-59bf-4734-8722-a16ac3a43616\",\r\n    \"Member\": \"TESTING DATA\",\r\n    \"ProgramType\": \"Algorithms\",\r\n    \"SecurityUserId\": null,\r\n    \"Service\": \"BH\",\r\n    \"ServiceUnits\": \"12\",\r\n    \"Activity\": \"ASMT\",\r\n    \"SubActivity\": null,\r\n    \"TotalTime\": 0,\r\n    \"TotalTimeDisplay\": \"00:00\",\r\n    \"TravelDuration\": \"12\",\r\n    \"TravelMiles\": \"12\",\r\n    \"VolunteerDriver\": true,\r\n    \"Reason\": \"Reason\",\r\n    \"AdditionalComments\": \"test\",\r\n    \"InsertedByName\": null,\r\n    \"InsertedOn\": null,\r\n    \"UpdatedByName\": null,\r\n    \"UpdatedOn\": null,\r\n    \"Udf\": {},\r\n    \"CareProgramRequired\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get member time-track by Id",
+					"item": [
+						{
+							"name": "microservice member by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{micro_service_base_url}}/{{namespace}}/{{service}}/api/members/{{memberId}}/timetracking/eb027dd4-d1b1-4ed6-b882-512d9837548d",
+									"host": [
+										"{{micro_service_base_url}}"
+									],
+									"path": [
+										"{{namespace}}",
+										"{{service}}",
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking",
+										"eb027dd4-d1b1-4ed6-b882-512d9837548d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "legacy member by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"try {\r",
+											"    var responseObj = pm.response.json();\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"    pm.environment.set(\"microserviceResponse\", responseObj);\r",
+											"}\r",
+											"catch (err) {\r",
+											"    console.warn(err.message);\r",
+											"}\r",
+											"// API Tests\r",
+											"//Begin\r",
+											"eval(globals.commonTests)();\r",
+											"\r",
+											"pm.test(\"Validation for status code 200\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "TenantId",
+										"value": "{{tenantId}}",
+										"type": "text"
+									},
+									{
+										"key": "SegmentId",
+										"value": "{{segmentId}}",
+										"type": "text"
+									},
+									{
+										"key": "SecurityUserRoleId",
+										"value": "{{securityuserroleid}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{legacy_service_base_url}}/api/members/{{memberId}}/timetracking/ed3bf2fc-3b26-4b82-8b00-905535fcc2c8",
+									"host": [
+										"{{legacy_service_base_url}}"
+									],
+									"path": [
+										"api",
+										"members",
+										"{{memberId}}",
+										"timetracking",
+										"ed3bf2fc-3b26-4b82-8b00-905535fcc2c8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Beare Token",
+			"value": "eyJraWQiOiItYVJqX3hTT2JTSE43NkJXTndQdjVWNll5Zml5Y3BqT3gxa1NsSnJVM1A0IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlo0aFBabnhwTnEzRW96ZTBnTE1zazhVWFFOMVdaOVhUTlMxNmNPcFFtbFUiLCJpc3MiOiJodHRwczovL2Fzc3VyZWNhcmUub2t0YS5jb20vb2F1dGgyL2RlZmF1bHQiLCJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNjYwMjI4NzQ2LCJleHAiOjE2NjAyMzU5NDYsImNpZCI6IjBvYTFpMHNhamZsQklLUklHMGg4IiwidWlkIjoiMDB1MWh3YTcxdGNGUE5rZncwaDgiLCJzY3AiOlsib3BlbmlkIl0sImF1dGhfdGltZSI6MTY2MDIyODc0Niwic3ViIjoidGVzdDFAYWMuY29tIiwibGFzdCI6Ik9uZSIsImZuIjoiVGVzdCBPbmUiLCJncm91cHMiOlsiRGVmYXVsdC1Db25maWd1cmF0aW9uIiwiRXZlcnlvbmUiLCJhY21lIiwiQmlsbDJQcm9maWxlX0JpbGwyU2VjdXJpdHkiLCJTdGFuZGFyZCBVc2VyIiwibWVkY29tcGFzc3VzZXIiLCJFeHRlbmFsIFByb3ZpZGVyIiwiYXV0b21hdGlvbi1Db25maWd1cmF0aW9uX2F1dG9tYXRpb24tcm9sZSIsImF1dG9tYXRpb24tQ29uZmlndXJhdGlvbl9BdXRvbWF0aW9uRG9udFRvdWNoIiwiVUFULUFDTUMtQURNLUFHWSJdLCJtZWRjb21wYXNzc2VjdXJpdHlyb2xlcyI6WyJTcmFkZGhhbnMgUm9sZSJdLCJmaXJzdCI6IlRlc3QifQ.pGgJV8UZgd32rma0EEs8PnKTIA5gqzXnETVIQ_RsAxPYZZINnSEHSQQPizzzwBOAYBFEAkLt2No9t5kCvDhTwcI0RYv9tiXw25LGi3MlQ95obWGAHTmRz6t_85vc74nO4AttvYDoMFqPRWXAk54nDCia-EcQL6ajSw22sebnw6_jXGxzu-dnZDpt5bNHNnEYoSQGS-zy-90fk0nmgpT2HkZKu8scSbQSkh32ZC2SZvxDVc7dT2ELozxWAcM3sJ4u5AjcJ4HOKARddjDnv9goOLM8IB3WMFQlBUCxHPatMN5VHIRvfrPdtreCP_VbsRgoHgMcYXT7cj6eJGiJVd1qCw"
+		},
+		{
+			"key": "legacy_user_sessionid",
+			"value": "67728c3a-173c-47d5-ae18-1e6177d17176"
+		},
+		{
+			"key": "id",
+			"value": "2f8ffacf-c4a1-4645-b01f-72ce6c2c4140"
+		},
+		{
+			"key": "id_1",
+			"value": "418787c3-00f7-4ed5-9d7e-43ad0022ea7c"
+		},
+		{
+			"key": "staffId",
+			"value": "1450328f-d67c-4d1b-b23c-01e8410f2d7d"
+		},
+		{
+			"key": "memberId",
+			"value": "ae9922ea-59bf-4734-8722-a16ac3a43616"
+		},
+		{
+			"key": "segmentId",
+			"value": "00000000-0000-0000-0000-000000000000"
+		}
+	]
+}

@@ -1,0 +1,36 @@
+trigger: none
+
+resources:
+  repositories:
+    - repository: build-resources
+      type: git
+      name: MedCompass/build-resources
+
+parameters:
+- name: postman
+  type: object
+  default:
+    collection: collection.json
+    environment: environment.json
+    globals: globals.json
+- name: namespace
+  displayName: 'Agent namespace'
+  type: string
+  default: 'devtools'    
+
+stages:
+- stage: CoreProdDev2
+  displayName: core-prod-dev2
+  pool: 
+    name: aks-agent-pool
+    demands:
+      - NAMESPACE -equals ${{ parameters.namespace }}
+  jobs:
+    - job: ab_test
+      displayName: 'A/B Test'
+      steps:
+      - template: templates/micro/ab-test-steps.yml@build-resources
+        parameters:
+          postman.collection: ${{ parameters.postman.collection }}
+          postman.environment: ${{ parameters.postman.environment }}
+          postman.globals: ${{ parameters.postman.globals }}

@@ -1,0 +1,96 @@
+variables:
+  serviceName: type-lookup-service
+  azBuildCounter: $[counter('type-lookup-service',1)]
+
+pool:
+  name: Hosted Ubuntu 1604
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - release/*
+pr:
+  branches:
+    include:
+    - master
+    - release/*
+
+steps:
+- task: DownloadBuildArtifacts@0
+  displayName: 'Download Kubernetes Tooling'
+  inputs:
+    buildType: specific
+    project: 'd6c4b858-0f5e-4b69-a346-a92c0ef3cd07'
+    pipeline: 247
+    artifactName: 'kubernetes-deployment'
+
+- task: Bash@3
+  displayName: 'Extract Version Information from cluster-info.json'
+  inputs:
+    targetType: filePath
+    filePath: '$(System.ArtifactsDirectory)/kubernetes-deployment/scripts/extract-cluster-info.sh'
+    arguments: '$(Build.SourcesDirectory)/cluster-info.json'
+
+- task: Bash@3
+  displayName: 'Run Tests'
+  inputs:
+    targetType: filePath
+    filePath: 'run-tests.sh'
+    arguments: 'azure $(azBuildCounter) $(Build.ArtifactStagingDirectory)'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results **/*.xml'
+  inputs:
+    testResultsFormat: xUnit
+    testResultsFiles: '**/*.xml'
+    searchFolder: '$(Build.ArtifactStagingDirectory)'
+    failTaskOnFailedTests: true
+
+- task: Docker@0
+  displayName: 'Build a container image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryConnection: 'AssureCare Docker Repository'
+    dockerFile: '$(serviceName)/Dockerfile'
+    buildArguments: |
+     APP_VERSION=$(app_version)
+     APP_BUILD=$(azBuildCounter)
+     PERFORM_SONARSCAN=1
+     SONAR_TOKEN=97ccee5bebe80bef9c1d9b5de175340d71e7fc24
+     
+    defaultContext: false
+    imageName: 'assurecare/$(serviceName):$(app_version)'
+    includeLatestTag: true
+
+- task: Bash@3
+  displayName: 'Add Azure Container Tag'
+  inputs:
+    targetType: 'inline'
+    script: docker tag $SRC $TARGET && docker tag $TARGET $LATESTTARGET && docker images && echo "Tagged!"
+  env:
+    SRC: assurecare/$(serviceName):$(app_version)
+    TARGET: regmchubaks01.azurecr.io/assurecare/$(serviceName):$(app_version)
+    LATESTTARGET: regmchubaks01.azurecr.io/assurecare/$(serviceName):latest 
+
+# - task: Docker@0
+#   displayName: 'Push a container image'
+#   inputs:
+#     containerregistrytype: 'Container Registry'
+#     dockerRegistryConnection: 'AssureCare Docker Repository'
+#     action: 'Push an image'
+#     imageName: 'assurecare/$(serviceName):$(app_version)'
+#     includeLatestTag: true
+#   condition: and(succeeded(), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/AzureMigration'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')))
+
+
+- task: Docker@0
+  displayName: 'Push a container image'
+  inputs:
+    azureSubscription: 'AKS Service Connection'
+    azureContainerRegistry: '{"loginServer":"regmchubaks01.azurecr.io", "id" : "/subscriptions/3962b9d1-47b9-4c24-93d8-fb572c366b77/resourceGroups/rg-mc-hub-ss-01/providers/Microsoft.ContainerRegistry/registries/regmchubaks01"}'
+    action: 'Push an image'
+    imageName: 'assurecare/$(serviceName):$(app_version)'
+    includeLatestTag: true
+  condition: and(succeeded(), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/AzureMigration'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')))

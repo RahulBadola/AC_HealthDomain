@@ -1,0 +1,15 @@
+[
+    "AddressState",
+    "AddressCounty",
+    "AllergyType",
+    "AllergySeverityType",
+    "AllergyInformationSourceType",
+    "CountryType",
+    "ContactRelationshipType",
+    "DeterminationType",
+    "DeterminingAgencyType",
+    "DeterminationDecisionType",
+    "LegalRelationshipType",
+    "LegalType",
+    "ServiceAuthType"
+]
